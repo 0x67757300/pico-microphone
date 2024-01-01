@@ -54,13 +54,21 @@ git clone https://github.com/ArmDeveloperEcosystem/microphone-library-for-pico.g
 export PICO_SDK_PATH=/path/to/pico-sdk
 ```
 3. Create `build` dir, run `cmake` and `make`:
-```
+```sh
 mkdir build
 cd build
-cmake .. -DPICO_BOARD=pico
+cmake -DPICO_BOARD=pico_w -DWIFI_SSID=<wifi_ssid> -DWIFI_PASSWORD=<wifi_password> -DSERVER=<server> -DPORT=<port> ..
 make
 ```
 4. Copy example `.uf2` to Pico when in BOOT mode.
+5. Listen
+```sh
+nc -lup <port> > audio.pcm
+```
+6. Process
+```sh
+ffmpeg -f s16le -ar 16000 -ac 1 -i audio.pcm audio.wav
+```
 
 ## License
 
